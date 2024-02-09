@@ -71,6 +71,10 @@ body {
     width: 64px;
     height: 64px;
     background-color: #00ff00;
+    left: 400px;
+    top: 150px;
+    opacity: 1;
+    transition: all 1s ease-in-out;
 }
 
 #hero {
@@ -89,6 +93,7 @@ body {
 .character {
     position: absolute;
     z-index: 100;
+    transition: all 1s ease-in-out;
 }
 
 .foreground {
