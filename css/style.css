@@ -26,6 +26,7 @@ body {
     background-color: #000;
     top: 10px;
     left: 10px;
+    color: #ffffff;
 }
 
 #dialogBar {
@@ -41,8 +42,8 @@ body {
 
 #heroAvatar {
     width: 72px;
-    height: 64px;
-    background-color: #dc8f00;
+    height: 68px;
+    bottom: 0px;
     left: 0px;
 }
 
@@ -64,6 +65,7 @@ body {
     width: 72px;
     height: 64px;
     background-color: #ff0000;
+    bottom: 0px;
     right: 0px;
 }
 
@@ -77,13 +79,46 @@ body {
     transition: all 1s ease-in-out;
 }
 
-#hero {
+#key {
     width: 32px;
-    height: 32px;
-    background-color: #d018a2;
+    height: 64px;
+    left: 608px;
+    top: 480px;
+    opacity: 1;
 }
 
-#tileMap {}
+#brokenPillar {
+    width: 32px;
+    height: 64px;
+    left: 544px;
+    top: 16px;
+}
+
+#chest {
+    width: 32px;
+    height: 32px;
+    left: 64px;
+    top: 90px;
+}
+
+#statue {
+    width: 32px;
+    height: 64px;
+    left: 608px;
+    top: 394px;
+}
+
+#hero {
+    top: 202px;
+    left: 312px;
+    width: 32px;
+    height: 32px;
+    transition: all 1s ease-in-out
+}
+
+#tileMap {
+    top: -10px;
+}
 
 .background {
     position: absolute;
