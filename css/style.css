@@ -37,7 +37,6 @@ body {
     position: relative;
     width: 800px;
     height: 64px;
-    background-color: #000;
 }
 
 #heroAvatar {
@@ -49,24 +48,33 @@ body {
 
 #heroSpeech {
     width: 300px;
-    height: 30px;
     background-color: #fff;
+    top: 0px;
     left: 72px;
+    opacity: 0;
 }
 
 #counterSpeech {
     width: 300px;
-    height: 30px;
     background-color: #fff;
+    top: 0px;
     right: 72px;
+    opacity: 0;
 }
 
 #counterAvatar {
     width: 72px;
-    height: 64px;
-    background-color: #ff0000;
+    height: 68px;
     bottom: 0px;
     right: 0px;
+    opacity: 0;
+}
+
+#brownBar {
+    bottom: 0px;
+    height: 32px;
+    width: 800px;
+    background-color: #442c1c;
 }
 
 #squareTree {
@@ -83,7 +91,7 @@ body {
     width: 32px;
     height: 64px;
     left: 608px;
-    top: 480px;
+    top: 500px;
     opacity: 1;
 }
 
@@ -91,21 +99,21 @@ body {
     width: 32px;
     height: 64px;
     left: 544px;
-    top: 16px;
+    top: 30px;
 }
 
 #chest {
     width: 32px;
     height: 32px;
     left: 64px;
-    top: 90px;
+    top: 95px;
 }
 
 #statue {
     width: 32px;
     height: 64px;
     left: 608px;
-    top: 394px;
+    top: 404px;
 }
 
 #hero {
@@ -116,9 +124,7 @@ body {
     transition: all 1s ease-in-out
 }
 
-#tileMap {
-    top: -10px;
-}
+#tileMap {}
 
 .background {
     position: absolute;
@@ -128,10 +134,18 @@ body {
 .character {
     position: absolute;
     z-index: 100;
-    transition: all 1s ease-in-out;
 }
 
 .foreground {
     position: absolute;
     z-index: 1000;
+    transition: all 1s ease-in-out;
+}
+
+.speechBubble {
+    border-radius: 60px;
+    padding: 5px 5px 5px 20px;
+    user-select: none;
+    cursor: default;
+    transition: all 1s ease-in-out
 }

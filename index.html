@@ -23,20 +23,22 @@
         <div id="dialogBar" class="foreground">
             <div id="setMainDialog">
                 <div id="heroAvatar" class="foreground">
-                    <img src="img/portrait.png" alt="Hero's portrait">
+                    <img src="img/portrait.png" alt="Hero's portrait" draggable="false">
                 </div>
 
-                <div id="heroSpeech" class="foreground">
-
+                <div id="heroSpeech" class="foreground speechBubble">
+                    hey yo
                 </div>
 
-                <div id="counterSpeech" class="foreground">
-
+                <div id="counterSpeech" class="foreground speechBubble">
+                    yo hey
                 </div>
 
                 <div id="counterAvatar" class="foreground">
-
+                    <img src="img/portraitStatue.png" alt="Counter's portrait" draggable="false">
                 </div>
+
+                <div id="brownBar" class="background"></div>
             </div>
         </div>
 
@@ -56,6 +58,15 @@
             <img src="img/ClickAdventure.png" alt="Tilemap" draggable="false">
         </div>
     </div>
+
+    <audio id="heroAudio">
+        <source src="audio/Gibberish - Sound Effect_01.mp3">
+    </audio>
+
+    <audio id="counterAudio">
+        <source src="audio/high pitch voice.mp3">
+    </audio>
+
 </body>
 
 </html>
