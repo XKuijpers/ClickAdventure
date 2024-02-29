@@ -3,7 +3,10 @@ document.getElementById("mainTitle").innerText = "Point and Click Adventure";
 //Game state
 let gameState = {
     "inventory": [],
-    "brickPickedUp": false
+    "brickPickedUp": false,
+    "chestOpened": false,
+    "activatedPillar": false,
+    "metStatue": false
 }
 
 //Load data from save file
@@ -45,6 +48,9 @@ function runGame() {
     //Avatar
     const counterAvatar = document.getElementById("counterAvatar");
 
+    //Interactable appearances
+    const activatedPillar = document.getElementById("activatedPillar");
+
     gameWindow.onclick = function (e) {
         var rect = gameWindow.getBoundingClientRect();
         var x = e.clientX - rect.left;
@@ -82,34 +88,91 @@ function runGame() {
                     break;
 
                 case "chest":
-                    if (checkItem("Key")) {
-                        changeInventory("Key", "remove");
-                        showMessage(heroSpeech, "I thankfully managed to open the chest with this key.", heroAudio);
-                        console.log("I opened the chest.");
-                    }
+                    if (gameState.chestOpened == false) {
+                        if (checkItem("Key")) {
+                            changeInventory("Key", "remove");
+                            showMessage(heroSpeech, "I luckily managed to open the chest with this key.", heroAudio);
+                            setTimeout(showMessage, sec * 4, heroSpeech, "Wait a minute, what's this?", heroAudio);
+                            setTimeout(showMessage, sec * 8.1, heroSpeech, "Awesome, I found a diamond! Now what can I do with this..?", heroAudio);
+                            console.log("I opened the chest.");
+                            setTimeout(changeInventory, sec * 8.1, "Diamond", "add");
+                            gameState.chestOpened = true;
+                        }
 
-                    else if (checkItem("Brick")) {
-                        changeInventory("Brick", "remove");
-                        showMessage(heroSpeech, "Damn it! This stone brick broke off when trying to open the chest.", heroAudio);
-                        console.log("Damn it! This stone brick broke when trying to open the chest.");
+                        else if (checkItem("Brick")) {
+                            changeInventory("Brick", "remove");
+                            showMessage(heroSpeech, "Damn it! This stone brick broke off when trying to open the chest.", heroAudio);
+                            console.log("Damn it! This stone brick broke when trying to open the chest.");
+                        }
+
+                        else {
+                            showMessage(heroSpeech, "Fuck! This chest is locked and I don't have a way to open it.", heroAudio);
+                            console.log("Fuck! This chest is locked and I don't have a way to open it.");
+                        }
                     }
 
                     else {
-                        showMessage(heroSpeech, "Fuck! This chest is locked and I don't have a way to open it.", heroAudio);
-                        console.log("Fuck! This chest is locked and I don't have a way to open it.");
+                        showMessage(heroSpeech, "There doesn't seem to be anything left inside of this chest.", heroAudio);
+                        console.log("I already opened the chest.");
                     }
                     break;
 
                 case "statue":
-                    showMessage(heroSpeech, "Hey, a statue. It looks quite unmaintained.", heroAudio);
-                    setTimeout(function () { counterAvatar.style.opacity = 1; }, sec * 4);
-                    setTimeout(showMessage, sec * 4, counterSpeech, "I can hear you, you know..?", counterAudio);
-                    setTimeout(showMessage, sec * 8, heroSpeech, "Wait what? Did that statue just talk to me?", heroAudio);
-                    setTimeout(showMessage, sec * 12, counterSpeech, "I did, yes. So what?", counterAudio);
-                    setTimeout(showMessage, sec * 16, heroSpeech, "Nothing! I just did not expect a stone figure to talk back to me. But since you can talk, do you have any idea where I can find something to open the chest with?", heroAudio);
-                    setTimeout(showMessage, sec * 20, counterSpeech, "If you don't disrespect me like that again, sure.. I'll give you a hint: It is at one's final destination.", counterAudio);
-                    setTimeout(function () { counterAvatar.style.opacity = 0; }, sec * 24);
-                    console.log("Hey you.. Wanna know where the key is? It's at one's final destination.");
+                    if (gameState.activatedPillar == false) {
+                        showMessage(heroSpeech, "Hey, a statue. It looks quite unmaintained.", heroAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 1; }, sec * 4);
+                        setTimeout(showMessage, sec * 4, counterSpeech, "I can hear you, you know..?", counterAudio);
+                        setTimeout(showMessage, sec * 8, heroSpeech, "Wait, what? Did that statue just talk to me?", heroAudio);
+                        setTimeout(showMessage, sec * 12, counterSpeech, "I did, yes. So what?", counterAudio);
+                        setTimeout(showMessage, sec * 16, heroSpeech, "Nothing! I just did not expect a stone figure to talk back to me. But since you can talk, do you have any idea where I can find something to open the chest with?", heroAudio);
+                        setTimeout(showMessage, sec * 20, counterSpeech, "If you don't disrespect me like that again, sure.. I'll give you a hint: It is at one's final destination.", counterAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 0; }, sec * 24);
+                        console.log("Hey you.. Wanna know where the key is? It's at one's final destination.");
+
+                        gameState.metStatue = true;
+                    }
+
+                    else {
+                        if (gameState.metStatue == true) {
+                            showMessage(heroSpeech, "It's me again!", heroAudio);
+                        }
+
+                        else {
+                            showMessage(heroSpeech, "Who are you?", heroAudio);
+
+                            gameState.metStatue = true;
+                        }
+                    }
+                    break;
+
+                case "ceremonyPillar":
+                    if (gameState.activatedPillar == false) {
+                        if (checkItem("Diamond")) {
+                            showMessage(heroSpeech, "Hm, interesting. This diamond seems to react in a certain way to this pillar.", heroAudio);
+                            setTimeout(showMessage, sec * 4.1, heroSpeech, "It's really pulling towards the pillar as if it's a magnetic field.", heroAudio);
+                            setTimeout(showMessage, sec * 8.2, heroSpeech, "Wait, wait, wait! The diamond! It is going inside of the pillar!", heroAudio);
+
+                            setTimeout(changeInventory, sec * 8.2, "Diamond", "remove");
+                            setTimeout(function () { activatedPillar.style.opacity = 1 }, sec * 8.2);
+                            console.log("Wow! It glows blue now.")
+
+                            setTimeout(showMessage, sec * 12.3, heroSpeech, "Wait, what happened? Did that pillar just take my diamond?", heroAudio);
+                            setTimeout(showMessage, sec * 16.4, heroSpeech, "THE PILLAR EVEN TURNED BLUE?", heroAudio);
+                            setTimeout(showMessage, sec * 20.5, heroSpeech, "I NEED to tell someone about this immediately!", heroAudio);
+
+                            gameState.activatedPillar = true;
+                        }
+
+                        else {
+                            showMessage(heroSpeech, "This pillar is lame compared to the other ones..", heroAudio);
+                            console.log("Looks like an unactivated pillar.");
+                        }
+                    }
+
+                    else {
+                        showMessage(heroSpeech, "I feel a strong energy coming from this pillar.", heroAudio);
+                        console.log("I already activated this pillar.");
+                    }
                     break;
 
                 default:

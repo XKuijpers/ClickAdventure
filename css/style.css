@@ -116,6 +116,21 @@ body {
     top: 404px;
 }
 
+#ceremonyPillar {
+    width: 32px;
+    height: 48px;
+    left: 672px;
+    top: 460px;
+}
+
+#activatedPillar {
+    width: 32px;
+    height: 48px;
+    left: 675px;
+    top: 458px;
+    opacity: 0;
+}
+
 #hero {
     top: 202px;
     left: 312px;
