@@ -136,7 +136,8 @@ body {
     left: 312px;
     width: 32px;
     height: 32px;
-    transition: all 1s ease-in-out
+    transition: all 1s ease-in-out;
+    z-index: 10000;
 }
 
 #tileMap {}
@@ -162,5 +163,5 @@ body {
     padding: 5px 5px 5px 20px;
     user-select: none;
     cursor: default;
-    transition: all 1s ease-in-out
+    transition: all 1s ease-in-out;
 }
