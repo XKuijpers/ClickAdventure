@@ -7,10 +7,13 @@ let gameState = {
     "keyPickedUp": false,
     "chestOpened": false,
     "activatedPillar": false,
-    "metStatue": false
+    "metStatue": false,
+    "toldStatue": false,
+    "enteredRegionTwo": false,
+    "metLordGhostOne": false
 }
 
-localStorage.removeItem("gameState");
+//localStorage.removeItem("gameState");
 
 if (Storage) {
     if (localStorage.gameState) {
@@ -43,9 +46,15 @@ const counterAudio = document.getElementById("counterAudio");
 
 //Avatar
 const counterAvatar = document.getElementById("counterAvatar");
+const lordOneAvatar = document.getElementById("lordOneAvatar");
 
 //Interactable appearances
 const activatedPillar = document.getElementById("activatedPillar");
+const lordGhostOne = document.getElementById("lordGhostOne");
+
+//Regions
+const regionOneMap = document.getElementById("tileMap");
+const regionTwoMap = document.getElementById("regionTwoMap");
 
 if (gameState.keyPickedUp) {
     document.getElementById("key").remove();
@@ -53,6 +62,29 @@ if (gameState.keyPickedUp) {
 
 if (gameState.activatedPillar) {
     activatedPillar.style.opacity = 1;
+}
+
+if (gameState.enteredRegionTwo) {
+    document.getElementById("chest").remove();
+    document.getElementById("lordGhostEntrance").remove();
+    document.getElementById("signWest").remove();
+    document.getElementById("signEast").remove();
+    document.getElementById("ceremonyPillar").remove();
+    document.getElementById("activatedPillar").remove();
+    document.getElementById("statue").remove();
+    document.getElementById("brokenPillar").remove();
+
+    regionOneMap.style.opacity = 0;
+    regionTwoMap.style.opacity = 1;
+    lordGhostOne.style.opacity = 1;
+
+
+    mainCharacter.style.transition = 0 + "s";
+    mainCharacter.style.top = 66 + "px";
+    mainCharacter.style.left = 762 + "px";
+
+    setTimeout(function () { mainCharacter.style.transition = 1 + "s"; }, sec * 0.1);
+
 }
 
 updateInventory(gameState.inventory, inventoryList);
@@ -160,19 +192,50 @@ gameWindow.onclick = function (e) {
                 }
 
                 else {
-                    if (gameState.metStatue == true) {
-                        showMessage(heroSpeech, "It's me again!", heroAudio);
+                    if (gameState.toldStatue == true) {
+                        showMessage(heroSpeech, "Listen, man. I really need to tell you about this!", heroAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 1; }, sec * 4);
+                        setTimeout(showMessage, sec * 4, counterSpeech, "I already told you that I don't have the energy to deal with you.", counterAudio);
+                        setTimeout(showMessage, sec * 8, heroSpeech, "But I'm serious! Please listen to me!", heroAudio);
+                        setTimeout(showMessage, sec * 12, counterSpeech, "And I'M serious as well! Buzz off before I'll show you how I deal with nuisances.", counterAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 0; }, sec * 16);
+                        setTimeout(showMessage, sec * 16, heroSpeech, "Fuck! There's no way I'm going to convince him.", heroAudio);
+                    }
+
+                    else if (gameState.metStatue == true) {
+                        showMessage(heroSpeech, "Hey there! It's me again!", heroAudio);
+                        setTimeout(showMessage, sec * 4.1, heroSpeech, "You won't believe what just happened!", heroAudio);
+                        setTimeout(showMessage, sec * 8.2, heroSpeech, "Do you see that rune to your left? I just activated that rune!!", heroAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 1; }, sec * 12.2);
+                        setTimeout(showMessage, sec * 12.2, counterSpeech, "There's no way you just did that.. The key was a lie, pal.", counterAudio);
+                        setTimeout(showMessage, sec * 16.2, heroSpeech, "No, I'm serious! Turn around!!", heroAudio);
+                        setTimeout(showMessage, sec * 20.2, counterSpeech, "Buzz off kid, and let me rest. I don't have the energy to deal with you right now.", counterAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 0; }, sec * 24.2);
+                        setTimeout(showMessage, sec * 24.2, heroSpeech, "Well, damn it. Who am I going to tell about this now..?", heroAudio);
+
+                        gameState.toldStatue = true;
+
+                        setTimeout(saveGameState, sec * 24.2, gameState);
                     }
 
                     else {
                         showMessage(heroSpeech, "Hey you, statue! Did you see what happened right now?", heroAudio);
                         setTimeout(showMessage, sec * 4.1, heroSpeech, "...", heroAudio);
                         setTimeout(showMessage, sec * 8.2, heroSpeech, "Who am I kidding? Obviously a statue doesn't talk back..", heroAudio);
-                        setTimeout(showMessage, sec * 12.2, counterSpeech, "PLACEHOLDER", counterAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 1; }, sec * 12.2);
+                        setTimeout(showMessage, sec * 12.2, counterSpeech, "Who dares to wake me up from my eternal slumber?", counterAudio);
+                        setTimeout(showMessage, sec * 16.2, heroSpeech, "Me! Lord Ghost the II! I just activated this rune to your left, do you see it?", heroAudio);
+                        setTimeout(showMessage, sec * 20.2, counterSpeech, "Don't act foolish, \"Dumb Ghost the II\", or whatever you just said.", counterAudio);
+                        setTimeout(showMessage, sec * 24.3, counterSpeech, "That rune has been out of the running for ages, I don't have time for your nonsense.", counterAudio);
+                        setTimeout(showMessage, sec * 28.3, heroSpeech, "No, I'm serious. Turn around!!", heroAudio);
+                        setTimeout(showMessage, sec * 32.3, counterSpeech, "Buzz off kid, and let me rest. I don't have the energy to deal with you right now.", counterAudio);
+                        setTimeout(function () { counterAvatar.style.opacity = 0; }, sec * 36.3);
+                        setTimeout(showMessage, sec * 36.3, heroSpeech, "Well, damn it. Who am I going to tell about this now..?", heroAudio);
 
                         gameState.metStatue = true;
+                        gameState.toldStatue = true;
 
-                        saveGameState(gameState);
+                        setTimeout(saveGameState, sec * 36.3, gameState);
                     }
                 }
                 break;
@@ -180,10 +243,10 @@ gameWindow.onclick = function (e) {
             case "ceremonyPillar":
                 if (gameState.activatedPillar == false) {
                     if (checkItem("Diamond")) {
-                        showMessage(heroSpeech, "Hm, interesting. This diamond seems to react in a certain way to this pillar.", heroAudio);
-                        setTimeout(showMessage, sec * 4.1, heroSpeech, "It's really pulling towards the pillar as if it's a magnetic field.", heroAudio);
-                        setTimeout(showMessage, sec * 8.2, heroSpeech, "Wait, wait, wait! The diamond! It is going inside of the pillar!", heroAudio);
-                        setTimeout(showMessage, sec * 12.3, heroSpeech, "Wait, what happened? Did that pillar just take my diamond?", heroAudio);
+                        showMessage(heroSpeech, "Hm, interesting. This diamond seems to react in a certain way to this rune.", heroAudio);
+                        setTimeout(showMessage, sec * 4.1, heroSpeech, "It's really pulling towards the rune as if it's a magnetic field.", heroAudio);
+                        setTimeout(showMessage, sec * 8.2, heroSpeech, "Wait, wait, wait! The diamond! It is going inside of the rune!", heroAudio);
+                        setTimeout(showMessage, sec * 12.3, heroSpeech, "Wait, what happened? Did that rune just take my diamond?", heroAudio);
 
                         setTimeout(changeInventory, sec * 12.3, "Diamond", "remove");
                         setTimeout(function () { activatedPillar.style.opacity = 1 }, sec * 12.3);
@@ -192,7 +255,7 @@ gameWindow.onclick = function (e) {
                         setTimeout(function () { mainCharacter.style.left = 650 + "px"; }, sec * 12.3)
                         setTimeout(function () { mainCharacter.style.top = 493 + "px"; }, sec * 12.3)
 
-                        setTimeout(showMessage, sec * 16.4, heroSpeech, "THE PILLAR EVEN TURNED BLUE?!", heroAudio);
+                        setTimeout(showMessage, sec * 16.4, heroSpeech, "THE RUNE EVEN TURNED BLUE?!", heroAudio);
 
                         setTimeout(function () { mainCharacter.style.left = 632 + "px"; }, sec * 16.4)
 
@@ -204,14 +267,74 @@ gameWindow.onclick = function (e) {
                     }
 
                     else {
-                        showMessage(heroSpeech, "This pillar is lame compared to the other ones..", heroAudio);
-                        console.log("Looks like an unactivated pillar.");
+                        showMessage(heroSpeech, "This rune is lame compared to the other ones..", heroAudio);
+                        console.log("Looks like an unactivated rune.");
                     }
                 }
 
                 else {
-                    showMessage(heroSpeech, "I feel a strong energy coming from this pillar.", heroAudio);
-                    console.log("I already activated this pillar.");
+                    showMessage(heroSpeech, "I feel a strong energy coming from this rune.", heroAudio);
+                    console.log("I already activated this rune.");
+                }
+                break;
+
+            case "lordGhostEntrance":
+                if (gameState.toldStatue == false) {
+                    showMessage(heroSpeech, "Hm, maybe I shouldn't leave yet. I have a feeling that there's more to this place.", heroAudio);
+                }
+
+                else {
+                    showMessage(heroSpeech, "Alright then, you know what? If this stupid statue doesn't want to talk to me, I'll just go somewhere else.", heroAudio);
+                    setTimeout(showMessage, sec * 4.1, heroSpeech, "I'm sure my cousin Lord Ghost the I would want to hear about this.", heroAudio);
+
+                    gameState.enteredRegionTwo = true;
+
+                    setTimeout(saveGameState, sec * 4.1, gameState);
+
+                    setTimeout(function () { location.reload(); }, sec * 8.2)
+                }
+                break;
+
+            case "signEast":
+                showMessage(heroSpeech, "Ah, a sign! It says: \"Lord Ghost I is this way\".", heroAudio);
+                break;
+
+            case "signWest":
+                showMessage(heroSpeech, "Ah, a sign! It says: \"Statue of Youth is this way\".", heroAudio);
+                break;
+
+            case "lordGhostOne":
+                if (gameState.enteredRegionTwo) {
+                    mainCharacter.style.top = 325 + "px";
+                    mainCharacter.style.left = 196 + "px";
+
+                    if (gameState.metLordGhostOne == false) {
+                        showMessage(heroSpeech, "Cousin! You won't believe what just happened!", heroAudio);
+                        setTimeout(function () { lordOneAvatar.style.opacity = 1; }, sec * 4);
+                        setTimeout(showMessage, sec * 4, counterSpeech, "Pardon me, peasant? Don't you know I have a NAME?", counterAudio);
+                        setTimeout(showMessage, sec * 8, heroSpeech, "Oh! Uh, I'm really sorry Lord Ghost the I.", heroAudio);
+                        setTimeout(showMessage, sec * 12, counterSpeech, "Well then, that's better. Go on with what you were saying.", counterAudio);
+                        setTimeout(showMessage, sec * 16, heroSpeech, "Ok ok, you won't believe this! You know that old deactivated rune near that statue?", heroAudio);
+                        setTimeout(showMessage, sec * 20.1, heroSpeech, "I uh, accidentally activated that rune. It even glows blue now!", heroAudio);
+                        setTimeout(showMessage, sec * 24.2, heroSpeech, "But this dumb statue doesn't want to believe me, and says I'm wasting his time..", heroAudio);
+                        setTimeout(showMessage, sec * 28.2, counterSpeech, "What.. You came to disturb me with THIS news?", counterAudio);
+                        setTimeout(showMessage, sec * 32.3, counterSpeech, "Don't you know I have BETTER things to do than listen to your fairytales?", counterAudio);
+                        setTimeout(showMessage, sec * 36.4, counterSpeech, "I'm ROYALTY for fucks sake. I don't have the time for this.", counterAudio);
+                        setTimeout(showMessage, sec * 40.4, heroSpeech, "But, cous- I mean Lord Ghost the I! Please! You have to believe me.", heroAudio);
+                        setTimeout(showMessage, sec * 44.4, counterSpeech, "I said I DO NOT have the time for this. GOODBYE!", counterAudio);
+                        setTimeout(function () { lordOneAvatar.style.opacity = 0; }, sec * 48.4);
+                        setTimeout(showMessage, sec * 48.4, heroSpeech, "WHY IS THIS ENTIRE WORLD AGAINST ME?! WHAT DO I DO NOW??", heroAudio);
+
+                        gameState.metLordGhostOne = true;
+
+                        setTimeout(saveGameState, sec * 48.4, gameState);
+                    }
+
+                    else {
+                        lordOneAvatar.style.opacity = 1;
+                        showMessage(counterSpeech, "I SAID GOODBYE! GO AWAY! MOVE! CHOP CHOP! HASTA LA VISTA!!", counterAudio);
+                        setTimeout(function () { lordOneAvatar.style.opacity = 0; }, sec * 4);
+                    }
                 }
                 break;
 

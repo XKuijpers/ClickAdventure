@@ -70,6 +70,14 @@ body {
     opacity: 0;
 }
 
+#lordOneAvatar {
+    scale: 1.8;
+    height: 68px;
+    bottom: -10px;
+    right: 20px;
+    opacity: 0;
+}
+
 #brownBar {
     bottom: 0px;
     height: 32px;
@@ -141,6 +149,37 @@ body {
 }
 
 #tileMap {}
+
+#regionTwoMap {
+    opacity: 0;
+}
+
+#signEast {
+    top: 0px;
+    left: 608px;
+    width: 32px;
+    height: 32px;
+}
+
+#signWest {
+    top: 352px;
+    left: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+#lordGhostEntrance {
+    top: 412px;
+    left: 0px;
+    width: 32px;
+    height: 130px;
+}
+
+#lordGhostOne {
+    top: 310px;
+    left: 158px;
+    opacity: 0;
+}
 
 .background {
     position: absolute;
