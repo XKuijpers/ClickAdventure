@@ -9,6 +9,38 @@ body {
     grid-row-start: 1;
 }
 
+#resetButton {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    width: 100px;
+    height: 50px;
+    position: relative;
+    left: 700px;
+    top: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #727526;
+}
+
+#tipText {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    width: 236px;
+    height: 37px;
+    position: relative;
+    left: 446px;
+    top: 18px;
+    text-decoration: underline;
+    font-size: 14px;
+    border-color: #545454;
+    border-width: 2px;
+    border-style: solid;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+    background-color: #727526;
+}
+
 #maintitle {}
 
 #gameWindow {
@@ -139,6 +171,12 @@ body {
     opacity: 0;
 }
 
+#openChestPicture {
+    left: 64px;
+    top: 76px;
+    opacity: 0;
+}
+
 #hero {
     top: 202px;
     left: 312px;
@@ -170,15 +208,27 @@ body {
 
 #lordGhostEntrance {
     top: 412px;
-    left: 0px;
     width: 32px;
     height: 130px;
+}
+
+#northAccess {
+    left: 672px;
+    width: 128px;
+    height: 32px;
 }
 
 #lordGhostOne {
     top: 310px;
     left: 158px;
     opacity: 0;
+}
+
+#statueRoad {
+    top: 16px;
+    left: 768px;
+    width: 32px;
+    height: 162px;
 }
 
 .background {

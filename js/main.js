@@ -6,14 +6,13 @@ let gameState = {
     "brickPickedUp": false,
     "keyPickedUp": false,
     "chestOpened": false,
+    "openChest": false,
     "activatedPillar": false,
     "metStatue": false,
     "toldStatue": false,
     "enteredRegionTwo": false,
     "metLordGhostOne": false
 }
-
-//localStorage.removeItem("gameState");
 
 if (Storage) {
     if (localStorage.gameState) {
@@ -50,7 +49,12 @@ const lordOneAvatar = document.getElementById("lordOneAvatar");
 
 //Interactable appearances
 const activatedPillar = document.getElementById("activatedPillar");
+const openChestPicture = document.getElementById("openChestPicture");
 const lordGhostOne = document.getElementById("lordGhostOne");
+
+//Reset button
+const resetButton = document.getElementById("resetButton");
+resetButton.addEventListener('click', resetButtonClicked);
 
 //Regions
 const regionOneMap = document.getElementById("tileMap");
@@ -64,13 +68,19 @@ if (gameState.activatedPillar) {
     activatedPillar.style.opacity = 1;
 }
 
+if (gameState.openChest) {
+    openChestPicture.style.opacity = 1;
+}
+
 if (gameState.enteredRegionTwo) {
     document.getElementById("chest").remove();
     document.getElementById("lordGhostEntrance").remove();
+    document.getElementById("northAccess").remove();
     document.getElementById("signWest").remove();
     document.getElementById("signEast").remove();
     document.getElementById("ceremonyPillar").remove();
     document.getElementById("activatedPillar").remove();
+    document.getElementById("openChestPicture").remove();
     document.getElementById("statue").remove();
     document.getElementById("brokenPillar").remove();
 
@@ -132,12 +142,14 @@ gameWindow.onclick = function (e) {
                 if (gameState.chestOpened == false) {
                     if (checkItem("Key")) {
                         changeInventory("Key", "remove");
+                        openChestPicture.style.opacity = 1;
                         showMessage(heroSpeech, "Awesome, I managed to open the chest with this key.", heroAudio);
                         setTimeout(showMessage, sec * 4, heroSpeech, "Wait a minute, what's this?", heroAudio);
                         setTimeout(showMessage, sec * 8.1, heroSpeech, "Oh, I found a diamond! Now this is a real treasure!", heroAudio);
                         console.log("I opened the chest.");
                         setTimeout(changeInventory, sec * 8.1, "Diamond", "add");
                         gameState.chestOpened = true;
+                        gameState.openChest = true;
 
                         setTimeout(saveGameState, sec * 8.1, gameState);
                     }
@@ -160,7 +172,10 @@ gameWindow.onclick = function (e) {
                     if (checkItem("Brick")) {
                         changeInventory("Brick", "remove");
                         showMessage(heroSpeech, "Heh, I guess I can store this stone brick in here for now.", heroAudio);
+                        setTimeout(function () { openChestPicture.style.opacity = 0; }, sec * 2);
                         console.log("Stored the stone brick inside of the chest.");
+
+                        gameState.openChest = false;
 
                         saveGameState(gameState);
                     }
@@ -278,6 +293,10 @@ gameWindow.onclick = function (e) {
                 }
                 break;
 
+            case "northAccess":
+                showMessage(heroSpeech, "This pathway seems to lead to a really dark place. I think it's better to stay away from here.", heroAudio);
+                break;
+
             case "lordGhostEntrance":
                 if (gameState.toldStatue == false) {
                     showMessage(heroSpeech, "Hm, maybe I shouldn't leave yet. I have a feeling that there's more to this place.", heroAudio);
@@ -308,7 +327,29 @@ gameWindow.onclick = function (e) {
                     mainCharacter.style.top = 325 + "px";
                     mainCharacter.style.left = 196 + "px";
 
-                    if (gameState.metLordGhostOne == false) {
+                    if (gameState.metLordGhostOne == false && checkItem("Brick")) {
+                        showMessage(heroSpeech, "Cousin! You won't believe what just happened!", heroAudio);
+                        setTimeout(function () { lordOneAvatar.style.opacity = 1; }, sec * 4);
+                        setTimeout(showMessage, sec * 4, counterSpeech, "Pardon me, peasant? Don't you know I have a NAME?", counterAudio);
+                        setTimeout(showMessage, sec * 8, heroSpeech, "Oh! Uh, I'm really sorry Lord Ghost the I.", heroAudio);
+                        setTimeout(showMessage, sec * 12, counterSpeech, "Good. Now what am I supposed to believe? That you brought me a BRICK?", counterAudio);
+                        setTimeout(showMessage, sec * 16, heroSpeech, "No, no. You know that old deactivated rune near that statue?", heroAudio);
+                        setTimeout(showMessage, sec * 20.1, heroSpeech, "I uh, accidentally activated that rune. It even glows blue now!", heroAudio);
+                        setTimeout(showMessage, sec * 24.2, heroSpeech, "But this dumb statue doesn't want to believe me, and says I'm wasting his time..", heroAudio);
+                        setTimeout(showMessage, sec * 28.2, counterSpeech, "What.. You came to disturb me with THIS news? Why do you even have a bricK?!", counterAudio);
+                        setTimeout(showMessage, sec * 32.3, counterSpeech, "Don't you know I have BETTER things to do than listen to your fairytales and looking at your stupid rock collection?", counterAudio);
+                        setTimeout(showMessage, sec * 36.4, counterSpeech, "I'm ROYALTY for fucks sake. I don't have the time for this.", counterAudio);
+                        setTimeout(showMessage, sec * 40.4, heroSpeech, "But, cous- I mean Lord Ghost the I! Please! You have to believe me.", heroAudio);
+                        setTimeout(showMessage, sec * 44.4, counterSpeech, "I said I DO NOT have the time for this. GOODBYE!", counterAudio);
+                        setTimeout(function () { lordOneAvatar.style.opacity = 0; }, sec * 48.4);
+                        setTimeout(showMessage, sec * 48.4, heroSpeech, "WHY IS THIS ENTIRE WORLD AGAINST ME?! WHAT DO I DO NOW??", heroAudio);
+
+                        gameState.metLordGhostOne = true;
+
+                        setTimeout(saveGameState, sec * 48.4, gameState);
+                    }
+
+                    else if (gameState.metLordGhostOne == false) {
                         showMessage(heroSpeech, "Cousin! You won't believe what just happened!", heroAudio);
                         setTimeout(function () { lordOneAvatar.style.opacity = 1; }, sec * 4);
                         setTimeout(showMessage, sec * 4, counterSpeech, "Pardon me, peasant? Don't you know I have a NAME?", counterAudio);
@@ -334,7 +375,14 @@ gameWindow.onclick = function (e) {
                         lordOneAvatar.style.opacity = 1;
                         showMessage(counterSpeech, "I SAID GOODBYE! GO AWAY! MOVE! CHOP CHOP! HASTA LA VISTA!!", counterAudio);
                         setTimeout(function () { lordOneAvatar.style.opacity = 0; }, sec * 4);
+                        setTimeout(function () { alert("END OF STORY. Thank you for playing!"); }, sec * 4.2);
                     }
+                }
+                break;
+
+            case "statueRoad":
+                if (gameState.enteredRegionTwo) {
+                    showMessage(heroSpeech, "There seems to be no point in returning if the statue is this stubborn.", heroAudio);
                 }
                 break;
 
@@ -434,4 +482,14 @@ function hideMessage(targetBubble, targetSound) {
 
 function saveGameState(gameState) {
     localStorage.gameState = JSON.stringify(gameState);
+}
+
+/**
+ * Resets data when the reset button has been clicked
+ */
+
+function resetButtonClicked() {
+    localStorage.removeItem("gameState");
+    alert("Data has been reset!");
+    location.reload();
 }

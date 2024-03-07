@@ -13,7 +13,18 @@
         <h1 id="mainTitle">Game title</h1>
     </div>
 
+    <!--Reset Data-->
+    <button id="resetButton">RESET PROGRESS</button>
+    <div id="tipText">
+        Tip: There are multiple dialog possibilities depending on your gameplay.
+    </div>
+
     <div id="gameWindow">
+        <!--Opened chest picture-->
+        <div id="openChestPicture" class="foreground">
+            <img src="img/openChest.png" alt="An open chest" draggable="flase">
+        </div>
+
         <!--Inventory box-->
         <div id="inventoryBox" class="foreground">
             <ul id="inventoryList"></ul>
@@ -61,6 +72,7 @@
         <div id="signEast" class="foreground"></div>
         <div id="signWest" class="foreground"></div>
         <div id="lordGhostEntrance" class="foreground"></div>
+        <div id="northAccess" class="foreground"></div>
 
         <!--Main character-->
         <div id="hero" class="character">
@@ -76,6 +88,9 @@
             <img src="img/RegionTwoMap.png" alt="Tilemap" draggable="false">
         </div>
 
+        <div id="statueRoad" class="foreground"></div>
+
+        <!--Lord Ghost the I-->
         <img id="lordGhostOne" class="foreground" src="img/ghostLordFirst.png" alt="Ghost Lord the I" draggable="false">
 
     </div>
